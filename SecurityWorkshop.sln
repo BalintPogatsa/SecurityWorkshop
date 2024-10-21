@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34330.188
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityWorkshop.Server", "SecurityWorkshop.Server\SecurityWorkshop.Server.csproj", "{76C5EFF5-31D7-474A-891C-783269D327C7}"
+EndProject
+Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "securityworkshop.client", "securityworkshop.client\securityworkshop.client.esproj", "{D827ADD9-390F-4A14-84DD-3D079EA18C79}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{76C5EFF5-31D7-474A-891C-783269D327C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76C5EFF5-31D7-474A-891C-783269D327C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76C5EFF5-31D7-474A-891C-783269D327C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76C5EFF5-31D7-474A-891C-783269D327C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D827ADD9-390F-4A14-84DD-3D079EA18C79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D827ADD9-390F-4A14-84DD-3D079EA18C79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D827ADD9-390F-4A14-84DD-3D079EA18C79}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{D827ADD9-390F-4A14-84DD-3D079EA18C79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D827ADD9-390F-4A14-84DD-3D079EA18C79}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D827ADD9-390F-4A14-84DD-3D079EA18C79}.Release|Any CPU.Deploy.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1D3255E3-0539-4A59-9855-AEEA26E626E7}
+	EndGlobalSection
+EndGlobal
