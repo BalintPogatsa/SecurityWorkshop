@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace SecurityWorkshop.Server.Controllers
@@ -18,6 +19,7 @@ namespace SecurityWorkshop.Server.Controllers
       _logger = logger;
     }
 
+    [Authorize("read_access")]
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
