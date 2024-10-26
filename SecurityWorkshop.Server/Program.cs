@@ -1,5 +1,8 @@
 
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Security.Claims;
+using System.Text.Json;
 
 namespace SecurityWorkshop.Server
 {
@@ -16,22 +19,24 @@ namespace SecurityWorkshop.Server
       builder.Services.AddEndpointsApiExplorer();
       builder.Services.AddSwaggerGen();
 
+      builder.Services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
+
       builder.Services.AddAuthentication()
         .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
         {
-          options.Authority = "https://localhost:8181/realms/quickstart";
-          options.Audience = "api://8814267c-25fc-459e-b0a6-f6d7ed056f12";
+          options.Authority = @"https://localhost:8181/realms/quickstart";
+          options.Audience = "account";
           options.MapInboundClaims = false;
         });
 
       builder.Services.AddAuthorizationBuilder()
        .AddPolicy("read_access", builder =>
        {
-         builder.RequireClaim("scp", "workshop:read", "workshop:all");
+         builder.RequireClaim(ClaimTypes.Role, "user");
        })
        .AddPolicy("write_access", builder =>
        {
-         builder.RequireClaim("scp", "workshop:write", "workshop:all");
+         builder.RequireClaim(ClaimTypes.Role, "admin");
        });
 
       var app = builder.Build();
