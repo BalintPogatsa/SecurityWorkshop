@@ -19,13 +19,26 @@ namespace SecurityWorkshop.Server.Controllers
       _logger = logger;
     }
 
-    [Authorize("read_access")]
-    [HttpGet(Name = "GetWeatherForecast")]
+    [Authorize("user_access")]
+    [HttpGet("forecast")]
     public IEnumerable<WeatherForecast> Get()
     {
       return Enumerable.Range(1, 5).Select(index => new WeatherForecast
       {
         Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
+        TemperatureC = Random.Shared.Next(-20, 55),
+        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
+      })
+      .ToArray();
+    }
+
+    [Authorize("admin_access")]
+    [HttpGet("data")]
+    public IEnumerable<WeatherForecast> GetData()
+    {
+      return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+      {
+        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(-6 + index)),
         TemperatureC = Random.Shared.Next(-20, 55),
         Summary = Summaries[Random.Shared.Next(Summaries.Length)]
       })

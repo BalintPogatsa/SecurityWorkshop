@@ -19,6 +19,8 @@ namespace SecurityWorkshop.Server
       builder.Services.AddEndpointsApiExplorer();
       builder.Services.AddSwaggerGen();
 
+      builder.Services.AddHttpLogging(options => { });
+
       builder.Services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
 
       builder.Services.AddAuthentication()
@@ -30,11 +32,11 @@ namespace SecurityWorkshop.Server
         });
 
       builder.Services.AddAuthorizationBuilder()
-       .AddPolicy("read_access", builder =>
+       .AddPolicy("user_access", builder =>
        {
-         builder.RequireClaim(ClaimTypes.Role, "user");
+         builder.RequireClaim(ClaimTypes.Role, "user", "admin");
        })
-       .AddPolicy("write_access", builder =>
+       .AddPolicy("admin_access", builder =>
        {
          builder.RequireClaim(ClaimTypes.Role, "admin");
        });
@@ -50,6 +52,8 @@ namespace SecurityWorkshop.Server
         app.UseSwagger();
         app.UseSwaggerUI();
       }
+
+      app.UseHttpLogging();
 
       app.UseHttpsRedirection();
 

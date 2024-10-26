@@ -18,7 +18,9 @@ interface WeatherForecast {
 export class AppComponent implements OnInit {
   public isLoggedIn = false;
   public forecasts: WeatherForecast[] = [];
+  public data: WeatherForecast[] = [];
   public userProfile: KeycloakProfile | null = null;
+  public isUnauthorized = false;
 
   constructor(private http: HttpClient, private readonly keycloak: KeycloakService) {}
 
@@ -30,14 +32,33 @@ export class AppComponent implements OnInit {
     }
 
     await this.getForecasts();
+
+    await this.getData();
   }
 
   getForecasts() {
-    this.http.get<WeatherForecast[]>('/weatherforecast').subscribe(
+    this.http.get<WeatherForecast[]>('/weatherforecast/forecast').subscribe(
       (result) => {
         this.forecasts = result;
       },
       (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+  getData() {
+    this.http.get<WeatherForecast[]>('/weatherforecast/data').subscribe(
+      (result) => {
+        this.data = result;
+        this.isUnauthorized = false;
+      },
+      (error) => {
+        if (error.status == 403)
+          this.isUnauthorized = true;
+        else
+          this.isUnauthorized = false;
+
         console.error(error);
       }
     );
