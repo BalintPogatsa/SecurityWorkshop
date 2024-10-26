@@ -72,5 +72,13 @@ export class AppComponent implements OnInit {
     this.keycloak.logout();
   }
 
+  public refreshData() {
+    this.getData();
+  }
+
+  public updateToken() {
+    this.keycloak.updateToken(300);
+  }
+
   title = 'securityworkshop.client';
 }
