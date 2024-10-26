@@ -1,24 +1,57 @@
-﻿<h1 id="tableLabel">Weather forecast</h1>
+<h1 id="tableLabel">Security WS - OpenID Connect Example</h1>
+
+<button *ngIf="isLoggedIn" type="button" (click)="logout()">Log out</button>
+<button *ngIf="!isLoggedIn" type="button" (click)="login()">Log in</button>
+
+<ng-container *ngIf="userProfile">
+  <h2>User information</h2>
+  <table>
+    <tr *ngIf="userProfile.username">
+      <th scope="row">Username</th>
+      <td>{{ userProfile.username }}</td>
+    </tr>
+    <tr *ngIf="userProfile.firstName">
+      <th scope="row">First name</th>
+      <td>{{ userProfile.firstName }}</td>
+    </tr>
+    <tr *ngIf="userProfile.lastName">
+      <th scope="row">First name</th>
+      <td>{{ userProfile.lastName }}</td>
+    </tr>
+    <tr *ngIf="userProfile.email">
+      <th scope="row">E-mail</th>
+      <td>{{ userProfile.email }}</td>
+    </tr>
+    <tr *ngIf="userProfile.attributes">
+      <th scope="row">Attributes</th>
+      <td>{{ userProfile.attributes }}</td>
+    </tr>
+    <tr>
+      <th scope="row">E-mail verified</th>
+      <td>{{ userProfile.emailVerified ? 'Yes' : 'No' }}</td>
+    </tr>
+  </table>
+</ng-container>
 
 <p>This component demonstrates fetching data from the server.</p>
 
 <p *ngIf="!forecasts"><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationangular">https://aka.ms/jspsintegrationangular</a> for more details.</em></p>
 
 <table *ngIf="forecasts">
-    <thead>
-        <tr>
-            <th>Date</th>
-            <th>Temp. (C)</th>
-            <th>Temp. (F)</th>
-            <th>Summary</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr *ngFor="let forecast of forecasts">
-            <td>{{ forecast.date }}</td>
-            <td>{{ forecast.temperatureC }}</td>
-            <td>{{ forecast.temperatureF }}</td>
-            <td>{{ forecast.summary }}</td>
-        </tr>
-    </tbody>
+  <thead>
+    <tr>
+      <th>Date</th>
+      <th>Temp. (C)</th>
+      <th>Temp. (F)</th>
+      <th>Summary</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let forecast of forecasts">
+      <td>{{ forecast.date }}</td>
+      <td>{{ forecast.temperatureC }}</td>
+      <td>{{ forecast.temperatureF }}</td>
+      <td>{{ forecast.summary }}</td>
+    </tr>
+  </tbody>
 </table>
