@@ -3,7 +3,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using SecurityWorkshop.Server.DataAccess;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
@@ -81,10 +84,22 @@ namespace SecurityWorkshop.Server
 
 
       app.MapControllers();
-
       app.MapFallbackToFile("/index.html");
 
       app.Run();
+
+      
+
+      using var context = new WeatherContext();
+
+      context.Database.EnsureDeleted();
+      context.Database.EnsureCreated();
+
+      context.AddRange(
+          new Blog { Name = "Blog1", Url = "http://blog1.com" },
+          new Blog { Name = "Blog2", Url = "http://blog2.com" });
+
+      context.SaveChanges();
     }
   }
 }

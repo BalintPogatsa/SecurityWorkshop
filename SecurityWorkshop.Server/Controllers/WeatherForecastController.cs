@@ -1,7 +1,10 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SecurityWorkshop.Server.DataAccess;
 using System;
 using System.Security.Cryptography;
+using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 
 namespace SecurityWorkshop.Server.Controllers
 {
@@ -51,13 +54,17 @@ namespace SecurityWorkshop.Server.Controllers
       .ToArray();
     }
 
-    [Authorize("admin_access")]
     [HttpGet("datafilter")]
     public List<WeatherForecast> GetData([FromQuery] string search)
     {
-      return context.Products
-      .FromSqlRaw(
-      $"SELECT * FROM Product WHERE Name LIKE {search} OR Description LIKE {search}").ToList();
+      using (var context = new WeatherContext())
+      {
+        var blogs = context.Blogs.FromSql($"SELECT * FROM Blogs WHERE Name LIKE {search} OR Description LIKE {search}").ToList();
+        Debug.WriteLine("Blogs in db: " + blogs.Count());
+
+        return new List<WeatherForecast>();
+      }
+      
     }
   }
 }
