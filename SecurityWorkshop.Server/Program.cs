@@ -1,6 +1,10 @@
 
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text.Json;
 
@@ -29,7 +33,23 @@ namespace SecurityWorkshop.Server
           options.Authority = @"https://localhost:8181/realms/quickstart";
           options.Audience = "account";
           options.MapInboundClaims = false;
-        });
+        })
+        .AddOpenIdConnect(options =>
+        {
+          options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+          options.SignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
+          options.Authority = @"https://localhost:8181/realms/quickstart";
+          options.ClientId = "8814267c-25fc-459e-b0a6-f6d7ed056f12";
+          options.ClientSecret = "asdfélaksdjfaélskdfjéalskdjf";
+          options.ResponseType = OpenIdConnectResponseType.Code;
+          options.SaveTokens = true;
+          options.MapInboundClaims = false;
+          options.Scope.Add("api://8814267c-25fc-459e-b0a6-f6d7ed056f12/games:all");
+          options.TokenValidationParameters.NameClaimType = JwtRegisteredClaimNames.Name;
+          options.TokenValidationParameters.RoleClaimType = "roles";
+        })
+        .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
+      ;
 
       builder.Services.AddAuthorizationBuilder()
        .AddPolicy("user_access", builder =>
