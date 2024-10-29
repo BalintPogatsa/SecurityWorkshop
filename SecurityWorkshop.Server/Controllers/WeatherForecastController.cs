@@ -5,6 +5,7 @@ using System;
 using System.Security.Cryptography;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Runtime.CompilerServices;
 
 namespace SecurityWorkshop.Server.Controllers
 {
@@ -59,12 +60,13 @@ namespace SecurityWorkshop.Server.Controllers
     {
       using (var context = new WeatherContext())
       {
-        var blogs = context.Blogs.FromSql($"SELECT * FROM Blogs WHERE Name LIKE {search} OR Description LIKE {search}").ToList();
+        FormattableString query = FormattableStringFactory.Create("SELECT * FROM Blogs WHERE Name LIKE '%'" + search + "'");
+        var blogs = context.Blogs.FromSql(query).ToList();
         Debug.WriteLine("Blogs in db: " + blogs.Count());
 
         return new List<WeatherForecast>();
       }
-      
+
     }
   }
 }
