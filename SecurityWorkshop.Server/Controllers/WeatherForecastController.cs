@@ -58,14 +58,14 @@ namespace SecurityWorkshop.Server.Controllers
     [HttpGet("datafilter")]
     public List<WeatherForecast> GetData([FromQuery] string search)
     {
-      using (var context = new WeatherContext())
-      {
-        FormattableString query = FormattableStringFactory.Create("SELECT * FROM Blogs WHERE Name LIKE '%'" + search + "'");
-        var blogs = context.Blogs.FromSql(query).ToList();
-        Debug.WriteLine("Blogs in db: " + blogs.Count());
+      //using (var context = new WeatherContext())
+      //{
+      //  FormattableString query = FormattableStringFactory.Create("SELECT * FROM Blogs WHERE Name LIKE '%'" + search + "'");
+      //  var blogs = context.Blogs.FromSql(query).ToList();
+      //  Debug.WriteLine("Blogs in db: " + blogs.Count());
 
-        return new List<WeatherForecast>();
-      }
+        return new List<WeatherForecast>() { new WeatherForecast { Date = DateOnly.FromDateTime(DateTime.Now), Summary = Summaries[0], TemperatureC = 42 } };
+      //}
 
     }
   }

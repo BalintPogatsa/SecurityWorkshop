@@ -30,6 +30,7 @@ namespace SecurityWorkshop.Server
 
       builder.Services.AddHttpLogging(logging => {
         logging.LoggingFields = HttpLoggingFields.All;
+        // Only for testing
         //logging.RequestHeaders.Add("Authorization");
         //logging.ResponseHeaders.Add("WWW-Authenticate");
       });
@@ -55,21 +56,6 @@ namespace SecurityWorkshop.Server
             ValidateLifetime = true,
           };
         })
-        //.AddOpenIdConnect(options =>
-        //{
-        //  options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-        //  options.SignOutScheme = OpenIdConnectDefaults.AuthenticationScheme;
-        //  options.Authority = @"https://localhost:8181/realms/quickstart";
-        //  options.ClientId = "8814267c-25fc-459e-b0a6-f6d7ed056f12";
-        //  options.ClientSecret = "asdfélaksdjfaélskdfjéalskdjf";
-        //  options.ResponseType = OpenIdConnectResponseType.Code;
-        //  options.SaveTokens = true;
-        //  options.MapInboundClaims = false;
-        //  options.Scope.Add("api://8814267c-25fc-459e-b0a6-f6d7ed056f12/games:all");
-        //  options.TokenValidationParameters.NameClaimType = JwtRegisteredClaimNames.Name;
-        //  options.TokenValidationParameters.RoleClaimType = "roles";
-        //})
-        //.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
       ;
 
       builder.Services.AddAuthorizationBuilder()
@@ -103,17 +89,6 @@ namespace SecurityWorkshop.Server
 
       app.MapControllers();
       app.MapFallbackToFile("/index.html");
-
-      using var context = new WeatherContext();
-
-      //context.Database.EnsureDeleted();
-      //context.Database.EnsureCreated();
-
-      context.AddRange(
-          new Blog { Name = "Blog1", Url = "http://blog1.com" },
-          new Blog { Name = "Blog2", Url = "http://blog2.com" });
-
-      context.SaveChanges();
 
       app.Run();
 
