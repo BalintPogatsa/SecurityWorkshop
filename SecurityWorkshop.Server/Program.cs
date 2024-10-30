@@ -3,9 +3,11 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.HttpLogging;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using Microsoft.IdentityModel.Tokens;
 using SecurityWorkshop.Server.DataAccess;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -26,16 +28,32 @@ namespace SecurityWorkshop.Server
       builder.Services.AddEndpointsApiExplorer();
       builder.Services.AddSwaggerGen();
 
-      builder.Services.AddHttpLogging(options => { });
+      builder.Services.AddHttpLogging(logging => {
+        logging.LoggingFields = HttpLoggingFields.All;
+        //logging.RequestHeaders.Add("Authorization");
+        //logging.ResponseHeaders.Add("WWW-Authenticate");
+      });
 
       builder.Services.AddTransient<IClaimsTransformation, ClaimsTransformer>();
 
-      builder.Services.AddAuthentication()
+      builder.Services.AddAuthentication(options =>
+        {
+          options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+          options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
         .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
         {
+          options.MetadataAddress = "https://localhost:8181/realms/quickstart/.well-known/openid-configuration";
           options.Authority = @"https://localhost:8181/realms/quickstart";
           options.Audience = "account";
           options.MapInboundClaims = false;
+          options.TokenValidationParameters = new TokenValidationParameters
+          {
+            ValidateIssuerSigningKey = true,
+            ValidateIssuer = true,
+            ValidateAudience = true,
+            ValidateLifetime = true,
+          };
         })
         //.AddOpenIdConnect(options =>
         //{
